@@ -1,3 +1,5 @@
+-- implementation based on BST
+
 module Set (
     Set (..),   -- instance Eq, Show
     null,
@@ -5,8 +7,9 @@ module Set (
     notMember,
     isSubsetOf,
     insert,
+    union,
     fromList,
-    union
+    toList,
 ) where
 
 import Prelude hiding (null)
@@ -42,21 +45,22 @@ insert value (Tree root left right) =
         LT -> (Tree root (insert value left) right)
         GT -> (Tree root left (insert value right))
 
-fromList :: (Ord a) => [a] -> Set a
-fromList [] = Empty
-fromList (x:xs) = insert x $ fromList xs
-
 union :: (Ord a) => Set a -> Set a -> Set a
 union tree Empty = tree
 union Empty tree = tree
 union tree (Tree root left right) =
     union (union (insert root tree) left) right
 
-inorder Empty = []
-inorder (Tree root left right) = (inorder left) ++ [root] ++ (inorder right)
+fromList :: (Ord a) => [a] -> Set a
+fromList [] = Empty
+fromList (x:xs) = insert x $ fromList xs
+
+toList :: Set a -> [a]
+toList Empty = []
+toList (Tree root left right) = (toList left) ++ [root] ++ (toList right)
 
 instance Eq a => Eq (Set a) where
-    tree1 == tree2 = inorder tree1 == inorder tree2
+    tree1 == tree2 = toList tree1 == toList tree2
 
 instance Show a => Show (Set a) where
-    show = show.inorder
+    show = show.toList
