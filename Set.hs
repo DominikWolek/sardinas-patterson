@@ -3,6 +3,7 @@
 module Set (
     Set (..),   -- instance Eq, Show
     null,
+    size,
     member,
     notMember,
     isSubsetOf,
@@ -25,6 +26,10 @@ data Set a = Empty | Tree a (Set a) (Set a)
 null :: Set a -> Bool
 null Empty = True
 null _ = False
+
+size :: Set a -> Int
+size Empty = 0
+size (Tree root left right) = 1 + (max (size left) (size right))
 
 member :: (Ord a) => a -> Set a -> Bool
 member _ Empty = False
