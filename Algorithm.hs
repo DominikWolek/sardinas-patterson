@@ -48,6 +48,6 @@ isSetCode set = check first setOfFirst
                 setIPlus = calculateNSet set setI
 
 isListCode :: (Ord a) => [[a]] -> Bool
-isListCode list =  (not areDuplicatesIn) && isSetCode (Set.fromList list)
+isListCode list =  areDuplicatesIn && isSetCode (Set.fromList list)
     where
         areDuplicatesIn = Set.size (Set.fromList list) == length list
