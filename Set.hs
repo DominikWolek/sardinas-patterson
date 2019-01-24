@@ -29,7 +29,7 @@ null _ = False
 
 size :: Set a -> Int
 size Empty = 0
-size (Tree root left right) = 1 + (max (size left) (size right))
+size (Tree root left right) = 1 + (size left) + (size right)
 
 member :: (Ord a) => a -> Set a -> Bool
 member _ Empty = False
